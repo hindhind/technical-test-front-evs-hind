@@ -1,0 +1,9 @@
+# Node dependencies:
+node_modules/
+
+# IDE settings:
+.vscode/
+.idea/
+
+# System files:
+.DS_Store
