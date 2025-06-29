@@ -44,11 +44,7 @@ export class ExamComponent implements OnInit {
   }
 
   openNewExamModal(): void {
-    const dialogRef = this.dialog.open(CreateExamComponent);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+   this.dialog.open(CreateExamComponent);
   }
 
   loadAllExams(): void {
