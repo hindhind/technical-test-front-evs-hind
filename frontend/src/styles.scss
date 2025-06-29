@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+:root {
+  --mat-sys-primary: #FB5607;
+  --mdc-theme-secondary: #43a047;
+  --mdc-chip-outline-width: 0px;
+  --mdc-chip-container-shape-radius: 12px;
+  --mdc-chip-label-text-color: none;
+
+   --mdc-elevated-card-container-color: #ffffff;
+   --mdc-elevated-card-container-shape: 16px;
+   --mdc-elevated-card-container-elevation: 0 4px 12px rgba(0, 0, 0, 0.3);
+   --mdc-outlined-card-container-color:#ffffff;
+
+   --mdc-outlined-card-container-shape: 10px;
+   --mdc-outlined-card-outline-width: 1px;
+   --mdc-outlined-card-outline-color: #cccc;
+   --mdc-outlined-card-container-elevation: none;
+
+   --mat-datepicker-calendar-text-font: 'Poppins', sans-serif;
+   --mat-datepicker-calendar-text-size: 16px;
+ 
+   --mdc-filled-button-container-shape: 15px;
+   --mdc-filled-button-label-text-color: --mat-sys-primary;
+
+   --mdc-filled-button-label-text-color: #ffff;
+
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
