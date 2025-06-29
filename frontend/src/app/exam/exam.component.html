@@ -6,7 +6,7 @@
     </div>
     <button mat-flat-button (click)="openNewExamModal()">{{ExamTexts.BUTTON_LABEL}}</button>
   </div>
-  @if(exams()) {
+  @if(exams().length > 0) {
   @for (exam of exams(); track exam) {
   <mat-card appearance="outlined" class="exam__card">
     <div class="exam__cell exam__candidate-name">
