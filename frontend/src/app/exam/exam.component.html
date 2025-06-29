@@ -1,0 +1,90 @@
+<div class="exam-list">
+  <div class="header">
+    <div>
+       <h2>{{ExamTexts.TITLE}}</h2>
+    <span> {{exams().length}} {{ExamTexts.SUBTITLE}}</span>
+    </div>
+    <button mat-flat-button (click)="openNewExamModal()">{{ExamTexts.BUTTON_LABEL}}</button>
+  </div>
+  @if(exams()) {
+  @for (exam of exams(); track exam) {
+  <mat-card appearance="outlined" class="exam__card">
+    <div class="exam__cell exam__candidate-name">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Person icon"
+        fontIcon="person_outline"
+      ></mat-icon>
+      {{ exam.candidateName }}
+    </div>
+    <div class="exam__cell exam__location ">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="location icon"
+        fontIcon="location_on"
+      ></mat-icon>
+      @if(exam.status === 'searching' || exam.status === '' ) {
+        En attente
+      } @else {
+        {{ exam.location }}
+      }
+      
+    </div>
+    <div class="exam__cell exam__date">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="CalendarMonth icon"
+        fontIcon="calendar_month"
+      ></mat-icon>
+      
+      @if(exam.status === 'searching' || exam.status === '' ) {
+        En attente
+      } @else {
+        {{ exam.date }}
+      }
+    </div>
+    <div class="exam__cell exam__time">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Schedule icon"
+        fontIcon="schedule"
+      ></mat-icon>
+     
+      @if(exam.status === 'searching' || exam.status === '' ) {
+       {{ExamTexts.WAITING_TEXT}}
+      } @else {
+        {{ exam.time | shortTime }} 
+      }
+    </div>
+    <div class="exam__cell exam__status">
+      <mat-chip-set aria-label="exam status">
+        <mat-chip
+          [ngClass]="{
+            confirmed: exam.status === ExamStatus.CONFIRMED,
+            pending: exam.status === ExamStatus.PENDING,
+            'to-organize': exam.status === ExamStatus.TO_ORGANIZE,
+            cancelled: exam.status === ExamStatus.CANCELLED,
+            searching: exam.status === ExamStatus.SEARCHING,
+          }"
+        >
+          @switch (exam.status) {
+            @case (ExamStatus.CONFIRMED) { <mat-icon>done</mat-icon>}
+            @case (ExamStatus.PENDING) { <mat-icon>more_horiz</mat-icon>}
+            @case (ExamStatus.TO_ORGANIZE) { <mat-icon>near_me</mat-icon>}
+            @case (ExamStatus.CANCELLED) { <mat-icon>clear</mat-icon>}
+            @case (ExamStatus.SEARCHING) { <mat-icon>hourglass_bottom</mat-icon>}
+            @case ('') { <mat-icon>hourglass_bottom</mat-icon>}
+          }
+
+          {{ getStatusLabel(exam.status) }}
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </mat-card>
+  }
+} @else {
+  <mat-spinner></mat-spinner>
+}
+
+ 
+</div>
