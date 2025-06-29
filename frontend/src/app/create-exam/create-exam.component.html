@@ -1,1 +1,39 @@
-<p>create-exam works!</p>
+
+<div class="create-exam">
+    <h2>{{CreateExamTexts.FORM_TITLE}}</h2>
+    <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline">
+            <mat-label>{{CreateExamTexts.FORM.NAME_LABEL}}</mat-label>
+            <input matInput #input  placeholder="name" formControlName="name"  />
+          </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+            <mat-label>{{CreateExamTexts.FORM.LOCATION_LABEL}}</mat-label>
+            <input matInput #input formControlName="location" placeholder="{{CreateExamTexts.FORM.NAME_LABEL}}" />
+          </mat-form-field>
+        <br>
+          <mat-form-field appearance="outline">
+            <mat-label>{{CreateExamTexts.FORM.DATE_LABEL}}</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" >
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="outline">
+            <mat-label>{{CreateExamTexts.FORM.TIME_LABEL}} | shortTime</mat-label>
+            <input matInput type="time" formControlName="time">
+          </mat-form-field>
+          <br>
+            <mat-form-field appearance="outline">
+                <mat-label>{{CreateExamTexts.FORM.STATUS_LABEL}}</mat-label>
+                <mat-select formControlName="status">
+                    @for (status of examStatuses; track status) {
+                      
+                  <mat-option  [value]="status" >{{ExamStatusLabels[status]}}</mat-option>
+                  }
+                </mat-select>
+              
+              </mat-form-field>
+        <button mat-flat-button type="submit"   [disabled]="!examForm.valid">{{CreateExamTexts.BUTTON_LABEL}}</button>
+      </form>
+  </div>
