@@ -9,15 +9,27 @@ app.use(cors());
 let items = [
   {
     id: 1,
-    title: 'Examen de mathématiques',
-    date: '2025-06-30',
-    duration: 120
+    candidateName: 'Franziska.S',
+    location: 'Martigues-B',
+    date: '2025-06-16',
+    time: '14:00',
+    status: 'confirmed'
   },
   {
     id: 2,
-    title: 'Examen de physique',
-    date: '2025-07-02',
-    duration: 90
+    candidateName: 'Lucas.R',
+    location: 'Martigues-B',
+    date: '2025-06-21',
+    time: '17:00',
+    status: 'to organize'
+  },
+  {
+    id: 3,
+    candidateName: 'Léo.C',
+    location: 'Martigues-B',
+    date: '2025-05-26',
+    time: '13:30',
+    status: 'cancelled'
   }
 ];
 
