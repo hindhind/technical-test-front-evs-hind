@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ExamUseCase } from '../../core/usecase/exam.usecase';
 import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
@@ -17,6 +17,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { ExamTexts, DATE_DISPLAY_FORMAT, ExamStatus, ExamStatusLabels, MESSAGES, MY_DATE_FORMATS, SNACKBAR } from '../shared/constants';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -39,7 +40,7 @@ import { ExamTexts, DATE_DISPLAY_FORMAT, ExamStatus, ExamStatusLabels, MESSAGES,
   templateUrl: './create-exam.component.html',
   styleUrl: './create-exam.component.scss',
 })
-export class CreateExamComponent implements OnInit {
+export class CreateExamComponent implements OnInit, OnDestroy{
   private formBuilder = inject(FormBuilder);
   private datepipe = inject(DatePipe);
   private examUseCase = inject(ExamUseCase);
@@ -49,6 +50,7 @@ export class CreateExamComponent implements OnInit {
   readonly ExamStatusLabels = ExamStatusLabels;
   readonly ExamStatus = ExamStatus;
   readonly CreateExamTexts = ExamTexts;
+  private subscription = new Subscription();
 
   
   ngOnInit(): void {}
@@ -85,21 +87,24 @@ export class CreateExamComponent implements OnInit {
       status: status!,
     };
 
-    this.examUseCase.createNewExam(newExam).subscribe({
+    this.subscription.add(this.examUseCase.createNewExam(newExam).subscribe({
       next: (data) => {
         this.openSnackBar(MESSAGES.EXAM_CREATION_SUCCESS, SNACKBAR.ACTION_OK, SNACKBAR.CLASS_SUCCESS);
-        this.examForm.reset();
+        this.examForm.reset;
         this.dialogRef.close(true);
       },
       error: (err) => {
         this.openSnackBar(MESSAGES.EXAM_CREATION_SUCCESS, SNACKBAR.ACTION_OK, SNACKBAR.CLASS_SUCCESS);
       },
-    });
+    }));
   }
   openSnackBar(message: string, action: string, className: string): void {
     this._snackBar.open(message, action,{
       panelClass: className,
     });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }
