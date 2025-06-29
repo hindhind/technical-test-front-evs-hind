@@ -88,7 +88,7 @@ export class CreateExamComponent implements OnInit {
     this.examUseCase.createNewExam(newExam).subscribe({
       next: (data) => {
         this.openSnackBar(MESSAGES.EXAM_CREATION_SUCCESS, SNACKBAR.ACTION_OK, SNACKBAR.CLASS_SUCCESS);
-        this.examForm.reset;
+        this.examForm.reset();
         this.dialogRef.close(true);
       },
       error: (err) => {
