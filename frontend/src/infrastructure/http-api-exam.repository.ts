@@ -12,12 +12,14 @@ export class HttpApiExamRepository implements ExamRepository {
     private baseUrl = `${environment.apiUrl}`;
     constructor(private http: HttpClient) {}
 
+    listOfExams(): Observable<ExamEntity[]> {
+        return this.http.get(`${this.baseUrl}/exams`).pipe(map((response: any) => response ?? []));
+     }
+
     createExam(exam: ExamEntity): Observable<ExamEntity> {
         return this.http.post<ExamEntity>(`${this.baseUrl}/exams`, exam);
     }
    
-    listOfExams(): Observable<ExamEntity[]> {
-       return this.http.get(`${this.baseUrl}/exams`).pipe(map((response: any) => response ?? []));
-    }
+   
  
 }
