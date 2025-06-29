@@ -1,21 +1,26 @@
-
-import { Observable } from "rxjs";
-import { ExamRepository } from "../repository/exam.repository";
-import { ExamEntity } from "../entities/exam.entity";
-import { Inject, Injectable } from "@angular/core";
+import { Observable, tap } from 'rxjs';
+import { ExamRepository } from '../repository/exam.repository';
+import { ExamEntity } from '../entities/exam.entity';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
-
 export class ExamUseCase {
-   constructor(private examRepositoryInterface: ExamRepository){}
+  private examsSignal = signal<ExamEntity[]>([]);
+  exams = this.examsSignal.asReadonly();
 
-getListOfExams(): Observable<ExamEntity[]> {
-    return this.examRepositoryInterface.listOfExams();
-}
+  constructor(private examRepositoryInterface: ExamRepository) {}
 
-createNewExam(newExam: ExamEntity): Observable<ExamEntity>{
-    return this.examRepositoryInterface.createExam(newExam);
-}
+  loadExams(): void {
+    this.examRepositoryInterface
+      .listOfExams()
+      .subscribe((exams) => this.examsSignal.set(exams));
+  }
+
+  createNewExam(newExam: ExamEntity): Observable<ExamEntity> {
+    return this.examRepositoryInterface
+      .createExam(newExam)
+      .pipe(tap(() => this.loadExams()));
+  }
 }
