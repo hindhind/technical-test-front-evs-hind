@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CreateExamComponent } from './create-exam/create-exam.component';
-import { environment } from '../environments/environment.development';
+import { ExamComponent } from './exam/exam.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CreateExamComponent],
-  providers: [{provide: 'BASE_API_URL', useValue: environment.apiUrl},],
+  imports: [RouterOutlet, ExamComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'frontend';
