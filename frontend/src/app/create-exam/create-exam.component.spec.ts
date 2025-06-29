@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateExamComponent } from './create-exam.component';
 import { ExamUseCase } from '../../core/usecase/exam.usecase';
 import { ExamRepository } from '../../core/repository/exam.repository';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideHttpClient } from '@angular/common/http';
+import { MESSAGES, SNACKBAR } from '../shared/constants';
 
 describe('CreateExamComponent', () => {
   let component: CreateExamComponent;
@@ -61,7 +62,7 @@ describe('CreateExamComponent', () => {
     expect(component.examForm.valid).toBeTrue();
   });
 
-  it('should call  createNewExam on submit', () => {
+  it('should call  createNewExam on submit and show success snackbar', () => {
     fixture.detectChanges();
     component.examForm.setValue({
       name: 'ana',
@@ -70,8 +71,42 @@ describe('CreateExamComponent', () => {
       time: '12:00',
       status: 'confirmed',
     });
-    component.onSubmit();
+    spyOn(component, 'openSnackBar');
+
+    component.createAnExam();
     expect(examUseCaseSpy.createNewExam).toHaveBeenCalled();
+    expect(component.openSnackBar).toHaveBeenCalledWith(
+      MESSAGES.EXAM_CREATION_SUCCESS,
+      SNACKBAR.ACTION_OK,
+      SNACKBAR.CLASS_SUCCESS
+    );
+  
+  });
+
+  it('should handle createNewExam error with snackbar', () => {
+    examUseCaseSpy.createNewExam.and.returnValue(
+      throwError(() => new Error('failure'))
+    );
+  
+    component.examForm.setValue({
+      name: 'Ana',
+      location: 'Paris',
+      date: new Date(),
+      time: '12:00',
+      status: 'confirmed'
+    });
+  
+    spyOn(component, 'openSnackBar');
+  
+    component.createAnExam();
+  
+    expect(component.openSnackBar).toHaveBeenCalledWith(
+      MESSAGES.EXAM_CREATION_SUCCESS,
+      SNACKBAR.ACTION_OK,
+      SNACKBAR.CLASS_SUCCESS
+    );
+  
+    expect(mockDialogRef.close).not.toHaveBeenCalled();
   });
 
   it('should close dialog on success', async () => {
