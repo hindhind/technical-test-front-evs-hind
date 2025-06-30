@@ -27,9 +27,10 @@ ng serve
 ```
 
 # Docker Compose (développement)
-
+```bash
 docker compose -f docker-compose.dev.yml up
-
+```
 # Docker Compose (production)
-
+```bash
 docker compose up
+```
